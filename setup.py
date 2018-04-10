@@ -15,7 +15,10 @@ ext = Extension(
         "aho-corasick/acism_file.c",
         "aho-corasick/msutil.c"
     ],
-    define_macros=[("ACISM_SIZE", "8")],
+    define_macros=[
+        ("ACISM_SIZE", "8"),
+        ("ACISM_STATS", "0")
+    ],
     include_dirs=[
         "./aho-corasick"
     ]
@@ -27,5 +30,10 @@ setup(
     description="Wrapper over aho-corasick C library",
     author="Rémi Berson",
     author_email="berson@syllabs.com",
-    ext_modules=cythonize(ext)
+    ext_modules=cythonize(ext, compiler_directives={
+        # 'boundscheck': False,
+        # 'wraparound': False,
+        # 'nonecheck': False,
+        # 'overflowcheck': False,
+    })
 )
